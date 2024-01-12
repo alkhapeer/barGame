@@ -17,17 +17,28 @@ app.get("/questions", (req, res) => {
     answers: currentQuestion.answers,
     correctAnswer: currentQuestion.correctAnswer,
   });
-  const button = document.getElementById("submit-button");
-
-button.addEventListener("click", () => {
-  // إجراء طلب إلى خادم التطبيق
-  const request = new XMLHttpRequest();
-  request.open("POST", "/questions");
-  request.send();
 });
 
+// معالجة طلب الإجابة
+app.post("/questions", (req, res) => {
+  // احصل على الإجابة من المستخدم
+  const answer = req.body.answer;
+
+  // تحقق من الإجابة
+  if (answer === questions[req.body.questionIndex].correctAnswer) {
+    // الإجابة صحيحة
+    res.send({
+      score: req.body.score + 1,
+    });
+  } else {
+    // الإجابة خاطئة
+    res.send({
+      score: req.body.score,
+    });
+  }
 });
 
+// تشغيل التطبيق
 app.listen(3000, () => {
   console.log("الخدمة تعمل على المنفذ 3000");
 });
