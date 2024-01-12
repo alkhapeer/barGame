@@ -17,6 +17,15 @@ app.get("/questions", (req, res) => {
     answers: currentQuestion.answers,
     correctAnswer: currentQuestion.correctAnswer,
   });
+  const button = document.getElementById("submit-button");
+
+button.addEventListener("click", () => {
+  // إجراء طلب إلى خادم التطبيق
+  const request = new XMLHttpRequest();
+  request.open("POST", "/questions");
+  request.send();
+});
+
 });
 
 app.listen(3000, () => {
